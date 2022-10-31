@@ -36,7 +36,7 @@ teams.forEach(team => {
     {
         if(player['current_team'] == team['Team_ID'])
         {
-            current_players.push(JSON.stringify(player))
+            current_players.push(player)
         }
     })
     team['players'] = current_players
