@@ -1,0 +1,33 @@
+Team_ID,name,city,expenses,income,nickname,championship_count,value,country,fan_count,Player_ID,name,surname,points,assists,salary,current_team
+1,San Quentin Spongers,San Quentin,100,101,Sponges,0,220,United States of America,120000,1,John,Doe,1,2,10,1
+1,San Quentin Spongers,San Quentin,100,101,Sponges,0,220,United States of America,120000,2,Marcus,Dark,2,0,11,1
+2,"London Loggers
+",London,120,110,"Lions
+",1,345,"United Kingdom
+",21000,3,Jesus,Sola,3,2,20,2
+2,"London Loggers
+",London,120,110,"Lions
+",1,345,"United Kingdom
+",21000,4,Bob,Robertson,4,1,11,2
+3,"San Antonio Foxes
+","San Antonio
+",48,56,"Red Foxes
+",0,210,United States of America,400000,5,Jim,Henderson,6,0,15,3
+3,"San Antonio Foxes
+","San Antonio
+",48,56,"Red Foxes
+",0,210,United States of America,400000,6,Lucas,Christansen,1,4,13,3
+4,New City Pioneers,"New York
+",140,156,Pikes,4,411,United States of America,1000000,7,Jan,Polsek,2,2,13,4
+5,Seine Swimmers,Paris,128,128,Swims,2,310,France,900000,8,Jimmi,Guernas,2,2,12,5
+6,Bern Bears,Bern,130,40,"Brown Bears
+",0,300,Switzerland,70000,9,Giorgio,Domess,3,2,12,6
+7,Tokyo Tsunami,"Tokyo
+",108,110,Waves,1,267,Japan,1100000,10,Surman,Alkuyev,6,1,17,7
+8,Istambul Shadows,Istambul,34,38,Immortals,0,189,Turkey,20000,11,Ben,Strong,5,5,10,8
+9,"Los Angeles Coastliners
+",Los Angeles,120,160,Palms,1,320,United States of America,56000,12,Andrew,Hightower,2,3,9,9
+10,Sydney Koalas,Sydney,80,67,Koalas,0,175,Australia,63000,13,Ferdinand,Howitz,0,0,5,10
+10,Sydney Koalas,Sydney,80,67,Koalas,0,175,Australia,63000,14,Yakuta,Showing,0,2,10,10
+4,New City Pioneers,"New York
+",140,156,Pikes,4,411,United States of America,1000000,15,Magnus,Alexander,1,1,7,4
