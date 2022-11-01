@@ -107,7 +107,7 @@ Opisuje stvaranje i strukturiranje tablica Team i Player
 
 - Dohvaćanje podataka iz baze
     - CSV: CSV se može dohvatiti iz baze pokretanjem sljedeće skripte iz SQL Shell-a:
-        COPY (select * from "Team" INNER JOIN "Player" ON "Team"."Team_ID" = "Player"."current_team") TO 'E:\GODINE\5\OTRAC\lab1\OTRAC\TeamsAndPlayers.csv'  WITH DELIMITER ',' CSV HEADER;
+        COPY (select * from "Team" INNER JOIN "Player" ON "Team"."Team_ID" = "Player"."current_team") TO 'path\to\file\TeamsAndPlayers.csv'  WITH DELIMITER ',' CSV HEADER;
     - JSON: JSON se može stvoriti pokretanjem connection.js datoteke sljedećom naredbom: 
             node connection.js
     Pokretanjem ove naredbe, sustav ponovno čita bazu podataka te stvara nove teams.json, players.json te TeamsAndPlayers.json datoteke
