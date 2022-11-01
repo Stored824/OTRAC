@@ -60,7 +60,7 @@ Primjer jednog reda iz datoteke:
 ## JavaScript Object Notation
 Podaci spremljeni u JSON formatu su oblikovani kao lista objekata. Svaki objekt bilježi sve potrebne atribute jednog zapisa u bazi.
 Postoje 3 JSON datoteke: teams.json, players.json te TeamsAndPlayers.json
-teams.json: popis svih timova i njihovih atributa, u popis nisu uključeni igrači, na primjer:
+-teams.json: popis svih timova i njihovih atributa, u popis nisu uključeni igrači, na primjer:
      {
          "Team_ID":2,
          "name":"London Loggers\n",
@@ -73,7 +73,7 @@ teams.json: popis svih timova i njihovih atributa, u popis nisu uključeni igra�
          "country":"United Kingdom\n",
          "fan_count":"21000"
     }
-players.json: popis svih igrača, nisu uključeni timovi
+-players.json: popis svih igrača, nisu uključeni timovi
  {
     "Player_ID":2,
     "name":"Marcus",
@@ -83,7 +83,7 @@ players.json: popis svih igrača, nisu uključeni timovi
     "salary":"11",
     "current_team":"1"
  }
-TeamsAndPlayers.json: popis timova koji ujedno imaju i igrače zapiane kao atribut pod ključem "players:"
+-TeamsAndPlayers.json: popis timova koji ujedno imaju i igrače zapiane kao atribut pod ključem "players:"
 {
     "Team_ID":2,
     "name":"London Loggers\n",
