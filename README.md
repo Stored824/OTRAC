@@ -1,7 +1,6 @@
 # TeamsAndPlayers
 Otvorena struktura podataka namjenjena za obavljanje prve laboratorijske vježbe predmeta Otvoreno Računarstvo.
 Izrađeno 30.10.2022. verzija 1.0
-Podaci su izmišljeni, svaka sličnost s bilo kojom osobom ili institucijom je slučajna.
 Podaci su dostupni na engleskom jeziku.
 Licenca projekta: Apache Commons licence 2.0
 Za više detalja o licenci, pročitati LICENCE datoteku

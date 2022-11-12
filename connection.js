@@ -43,4 +43,3 @@ teams.forEach(team => {
 });
 
 writeFileSync("TeamsAndPlayers.json",JSON.stringify(teams))
-
