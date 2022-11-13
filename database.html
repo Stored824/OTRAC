@@ -14,5 +14,21 @@
     <meta name = "release date" content = "30.10.2022."/>
 </head>
 <body>
-    <p>HELLO</p>
+    <h1>Pretraživanje timova</h1>
+    <form>
+      <label for="lname">Polje za pretragu</label><br>
+      <input type="text" id="pretraga" name="pretraga" placeholder="Unesite vrijednost" ><br><br>
+      <label for="lname">Odaberite Polje za pretragu: </label>
+      <select id = "kategorija" name = "dropdown">
+        <option value = "Wildcard" selected>Wildcard</option>
+        <option value = "Name">Team Name</option>
+        <option value = "Country">Country</option>
+        <option value = "City">City</option>
+     </select>
+     <br/>
+      <input type="submit" value="Pretraži">
+    </form>
+
+
+    
 </body>
