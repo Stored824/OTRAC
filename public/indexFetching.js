@@ -1,6 +1,29 @@
 
 document.getElementById('button').addEventListener('click',loadText);
 var responseJSON
+
+
+function jsonToCsv(items) {
+    var csvString = 'Name,Nickname,City,Country,Expenses,Income,Value,Championships Won,Number of Fans\n'
+    items.forEach(item => {
+        csvString += item.Team_ID+",";
+        csvString += item.name+",";
+        csvString += item.nickname+",";
+        csvString += item.city+",";
+        csvString += item.country+",";
+        csvString += item.expenses+",";
+        csvString += item.income+",";
+        csvString += item.value+",";
+        csvString += item.championship_count+",";
+        csvString += item.fan_count+",";
+        csvString +="\n"
+    });
+    return csvString;
+}
+
+
+
+
 async function loadText()
 {
     var xhr = new XMLHttpRequest();
@@ -13,7 +36,7 @@ async function loadText()
         if(this.status == 200)
         {
             console.log(this.responseText)
-            responseJSON = this.responseText.row
+            responseJSON = this.responseText
             loadTableData(this.responseText)
         }
 
@@ -66,24 +89,24 @@ function loadTableData(string) {
 
 document.getElementById('JSONbutton').addEventListener('click',downloadJSON);
 function downloadJSON() { 
+    console.log(responseJSON);
     var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(responseJSON));
     var dlAnchorElem = document.getElementById('downloadAnchorElem');
     dlAnchorElem.setAttribute("href",dataStr);
-    dlAnchorElem.setAttribute("download", "scene.json");
+    dlAnchorElem.setAttribute("download", "teamsAndPlayers.json");
     dlAnchorElem.click();
 }
 
-document.getElementById('JSONbutton').addEventListener('click',downloadJSON);
+document.getElementById('CSVbutton').addEventListener('click',downloadCSV);
 function downloadCSV() {
-    responseCSV = csvFromJSON(responseJSON);
+    
+    responseJSON = JSON.parse(responseJSON);
+    console.log(responseJSON);
+    var responseCSV = jsonToCsv(responseJSON);
+    console.log(responseCSV);
     var dataStr = "data:text/csv;charset=utf-8," + encodeURIComponent(responseCSV);
     var dlAnchorElem = document.getElementById('downloadAnchorElem');
     dlAnchorElem.setAttribute("href",dataStr);
-    dlAnchorElem.setAttribute("download", "scene.json");
+    dlAnchorElem.setAttribute("download", "teamsAndPlayers.csv");
     dlAnchorElem.click();
-}
-
-function csvFromJSON()
-{
-
 }
