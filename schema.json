@@ -1,0 +1,95 @@
+{
+  "$id": "https://example.com/arrays.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "A representation of a person, company, organization, or place",
+  "type": "object",
+  "properties": {
+    "fruits": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "vegetables": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/teamAndPlayer" }
+    }
+  },
+  "$defs": {
+    "teamAndPlayer": {
+      "type": "object",
+  "properties": {
+    "Team_ID": {
+      "type": "integer"
+    },
+    "teamname": {
+      "type": "string"
+    },
+    "nickname": {
+      "type": "string"
+    },
+    "city": {
+      "type": "string"
+    },
+    "country": {
+      "type": "string"
+    },
+    "expenses": {
+      "type": "string"
+    },
+    "income": {
+      "type": "string"
+    },
+    "value": {
+      "type": "string"
+    },
+    "championship_count": {
+      "type": "integer"
+    },
+    "fan_count": {
+      "type": "string"
+    },
+    "Player_ID": {
+      "type": "integer"
+    },
+    "name": {
+      "type": "string"
+    },
+    "surname": {
+      "type": "string"
+    },
+    "points": {
+      "type": "string"
+    },
+    "assists": {
+      "type": "string"
+    },
+    "salary": {
+      "type": "string"
+    },
+    "current_team": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "Team_ID",
+    "teamname",
+    "nickname",
+    "city",
+    "country",
+    "expenses",
+    "income",
+    "value",
+    "championship_count",
+    "fan_count",
+    "Player_ID",
+    "name",
+    "surname",
+    "points",
+    "assists",
+    "salary",
+    "current_team"
+  ]
+    }
+  }
+}
