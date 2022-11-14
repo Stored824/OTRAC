@@ -22,52 +22,47 @@
       <input type="text" id="pretraga" name="pretraga" placeholder="Unesite vrijednost" ><br><br>
       <label for="lname">Odaberite Polje za pretragu: </label>
       <select id = "kategorija" name = "dropdown">
-        <option value = "Wildcard" selected>Wildcard</option>
-        <option value = "Name">Team Name</option>
-        <option value = "Country">Country</option>
-        <option value = "City">City</option>
+        <option value = "WILDCARD" selected>Wildcard</option>
+        <option value = "name">Team Name</option>
+        <option value = "country">Country</option>
+        <option value = "city">City</option>
      </select>
      <br/>
-      <input type="submit" value="Pretraži">
     </form>
 
-<button id='button'>GET JSON file</button>
+<button id='button'>Pretraži</button>
 <br>
 <div id="response"></div>
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Nickname</th>
-    <th>City</th>
-    <th>Country</th>
-    <th>Expenses</th>
-    <th>Income</th>
-    <th>Value</th>
-    <th>Championships Won</th>
-    <th>Number of Fans</th>
-    <th>Name</th>
-    <th>Surname</th>
-    <th>Average Points Scored</th>
-    <th>Average Assists Made</th>
-    <th>Current Salary</th>
-  </tr>
-  <tr>
-    <td>Very Long value for variable</td>
-    <td>Very Long value for variable</td>
-    <td>Very Long value for variable</td>
-    <td>Very Long value for variable</td>
-    <td>Very Long value for variable</td>
-    <td>Very Long value for variable</td>
-    <td>Very Long value for variable</td>
-    <td>Very Long value for variable</td>
-    <td>Very Long value for variable</td>
-    <td>Very Long value for variable</td>
-    <td>Very Long value for variable</td>
-    <td>Very Long value for variable</td>
-    <td>Very Long value for variable</td>
-    <td>Very Long value for variable</td>
-  </tr>
+<table >
+  <thead id="table">
+    <tr>
+      <th>Name</th>
+      <th>Nickname</th>
+      <th>City</th>
+      <th>Country</th>
+      <th>Expenses</th>
+      <th>Income</th>
+      <th>Value</th>
+      <th>Championships Won</th>
+      <th>Number of Fans</th>
+      <!--
+      <th>Name</th>
+      <th>Surname</th>
+      <th>Average Points Scored</th>
+      <th>Average Assists Made</th>
+      <th>Current Salary</th>
+      -->
+    </tr>
+  </thead>
+  <tbody id="tableBody"></tbody>
 </table>
+
+<button id='JSONbutton'>Preuzmi kao JSON datoteku</button>
+<button id='CSVbutton'>Preuzmi kao CSV datoteku</button>
+
+<a id="downloadAnchorElem" style="display:none"></a>
+
 </body>
 <script type="module" src="indexFetching.js"></script>
+
 </html>

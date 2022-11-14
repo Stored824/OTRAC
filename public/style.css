@@ -10,6 +10,10 @@ table {
     padding: 8px;
   }
   
-  tr:nth-child(even) {
+  thead:nth-child(odd) {
+    background-color: #77ff77;
+  }
+
+  tbody:nth-child(even) {
     background-color: #bbffbb;
   }
