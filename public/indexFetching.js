@@ -4,10 +4,10 @@ var responseJSON
 var responseJSONtoCSV
 
 function jsonToCsv(items) {
-    var csvString = 'Name,Nickname,City,Country,Expenses,Income,Value,Championships Won,Number of Fans\n'
+    var csvString = 'Team Name,Nickname,City,Country,Expenses,Income,Value,Championships Won,Number of Fans,Player Name,Surname,Average Points Scored,Average Assists Made,Current Salary\n'
     items.forEach(item => {
         csvString += item.Team_ID+",";
-        csvString += item.name+",";
+        csvString += item.teamname+",";
         csvString += item.nickname+",";
         csvString += item.city+",";
         csvString += item.country+",";
@@ -16,6 +16,11 @@ function jsonToCsv(items) {
         csvString += item.value+",";
         csvString += item.championship_count+",";
         csvString += item.fan_count+",";
+        csvString += item.name+",";
+        csvString += item.surname+",";
+        csvString += item.points+",";
+        csvString += item.assists+",";
+        csvString += item.salary+",";
         csvString +="\n"
     });
     return csvString;
@@ -65,8 +70,8 @@ function loadTableData(string) {
         let row = table.insertRow();
 
         
-        let name = row.insertCell(0);
-        name.innerHTML = item.name;
+        let teamname = row.insertCell(0);
+        teamname.innerHTML = item.teamname;
         let nickname = row.insertCell(1);
         nickname.innerHTML = item.nickname;
         let city = row.insertCell(2);
@@ -83,6 +88,16 @@ function loadTableData(string) {
         champ.innerHTML = item.championship_count;
         let fans = row.insertCell(8);
         fans.innerHTML = item.fan_count;
+        let name = row.insertCell(9);
+        name.innerHTML= item.name;
+        let surname = row.insertCell(10);
+        surname.innerHTML = item.surname;
+        let points = row.insertCell(11);
+        points.innerHTML = item.points;
+        let assists = row.insertCell(12);
+        assists.innerHTML = item.assists;
+        let salary = row.insertCell(13);
+        salary.innerHTML = item.salary;
 
     });
     old_tbody.parentNode.replaceChild(table, old_tbody)
@@ -91,7 +106,7 @@ function loadTableData(string) {
 document.getElementById('JSONbutton').addEventListener('click',downloadJSON);
 function downloadJSON() { 
     console.log(responseJSON);
-    var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(responseJSON));
+    var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(responseJSON);
     var dlAnchorElem = document.getElementById('downloadAnchorElem');
     dlAnchorElem.setAttribute("href",dataStr);
     dlAnchorElem.setAttribute("download", "teamsAndPlayers.json");

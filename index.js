@@ -14,17 +14,20 @@ async function execute(column,keyword)
     // QUERY TEAMS
     if(keyword=="*")
     {
-        let queryString = 'SELECT * FROM "Team"'
+        let queryString = 'SELECT "Team"."Team_ID","Team"."name" AS teamname,"Team"."nickname","Team"."city","Team"."country","Team"."expenses","Team"."income","Team"."value","Team"."championship_count","Team"."fan_count","Player"."Player_ID","Player"."name","Player"."surname","Player"."points","Player"."assists","Player"."salary","Player"."current_team" FROM "Team" INNER JOIN "Player" ON "Team"."Team_ID" = "Player"."current_team"';
         teams = await client.query(queryString)
     }
     else
     {
         if(column=="WILDCARD")
         {
-            let queryString = 'SELECT * FROM "Team" WHERE "Team"."name" LIKE \'' + keyword + '%\'' + 'OR '
+            
+            let queryString = 'SELECT"Team"."Team_ID","Team"."name" AS teamname,"Team"."nickname","Team"."city","Team"."country","Team"."expenses","Team"."income","Team"."value","Team"."championship_count","Team"."fan_count","Player"."Player_ID","Player"."name","Player"."surname","Player"."points","Player"."assists","Player"."salary","Player"."current_team" FROM "Team" INNER JOIN "Player" ON "Team"."Team_ID" = "Player"."current_team" WHERE "Team"."name" LIKE \'' + keyword + '%\'' + 'OR '
             + '"Team"."nickname" LIKE \'' + keyword + '%\'' + 'OR '
             + '"Team"."city" LIKE \'' + keyword + '%\'' + 'OR '
-            + '"Team"."country" LIKE \'' + keyword + '%\'' 
+            + '"Team"."country" LIKE \'' + keyword + '%\'' + 'OR '
+            + '"Player"."name" LIKE \'' + keyword + '%\'' + 'OR '
+            + '"Player"."surname" LIKE \'' + keyword + '%\'';
             /*
             + 'OR '
             + '"Team"."expenses" LIKE \'' + keyword + '%\'' + 'OR '
@@ -37,7 +40,7 @@ async function execute(column,keyword)
         }
         else
         {
-            let queryString = 'SELECT * FROM "Team" WHERE "Team"."' + column + '" LIKE \'' + keyword + '%\''; 
+            let queryString = 'SELECT "Team"."Team_ID","Team"."name" AS teamname,"Team"."nickname","Team"."city","Team"."country","Team"."expenses","Team"."income","Team"."value","Team"."championship_count","Team"."fan_count","Player"."Player_ID","Player"."name","Player"."surname","Player"."points","Player"."assists","Player"."salary","Player"."current_team" FROM "Team" INNER JOIN "Player" ON "Team"."Team_ID" = "Player"."current_team" WHERE "Team"."' + column + '" LIKE \'' + keyword + '%\''; 
             teams = await client.query(queryString)
         }
 
