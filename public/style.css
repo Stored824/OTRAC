@@ -17,3 +17,44 @@ table {
   tbody:nth-child(even) {
     background-color: #bbffbb;
   }
+  .description{
+    align-items: center;
+  }
+  .links{
+    align-items: center;
+  }
+  .text_center{
+    text-align: center;
+  }
+  .font
+  {
+    font-size: larger;
+  }
+
+.center{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.padded{
+  padding: 1em 3.5em;
+}
+
+  a {
+    background-color: #bbffbb;
+    color: black;
+    font-weight: bold;
+    padding: 1em 1.5em;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+  a:hover {
+    background-color: #555;
+  }
+  
+  a:active {
+    background-color: black;
+  }
+
+  
