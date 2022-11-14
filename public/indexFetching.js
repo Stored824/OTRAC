@@ -1,7 +1,7 @@
 
 document.getElementById('button').addEventListener('click',loadText);
 var responseJSON
-
+var responseJSONtoCSV
 
 function jsonToCsv(items) {
     var csvString = 'Name,Nickname,City,Country,Expenses,Income,Value,Championships Won,Number of Fans\n'
@@ -36,7 +36,8 @@ async function loadText()
         if(this.status == 200)
         {
             console.log(this.responseText)
-            responseJSON = this.responseText
+            responseJSON = this.responseText;
+            responseJSONtoCSV = this.responseText;
             loadTableData(this.responseText)
         }
 
@@ -100,9 +101,9 @@ function downloadJSON() {
 document.getElementById('CSVbutton').addEventListener('click',downloadCSV);
 function downloadCSV() {
     
-    responseJSON = JSON.parse(responseJSON);
+    responseJSONtoCSV = JSON.parse(responseJSONtoCSV);
     console.log(responseJSON);
-    var responseCSV = jsonToCsv(responseJSON);
+    var responseCSV = jsonToCsv(responseJSONtoCSV);
     console.log(responseCSV);
     var dataStr = "data:text/csv;charset=utf-8," + encodeURIComponent(responseCSV);
     var dlAnchorElem = document.getElementById('downloadAnchorElem');
