@@ -9,11 +9,20 @@ const client = new Client({
 
 })
 
-//TAKE THE LIST OF TEAMS AND PLAYERS AND MAKE A HIERACHICAL STRUCTURE
-function hierachical(teamsAndPlayers)
+//ADD THE PLAYERS FROM EACH TEAM
+async function hierachical(teams)
 {
-    var teams = {}
-
+    console.log(teams)
+    let queryPlayerSelect = 'SELECT "Player"."Player_ID","Player"."name","Player"."surname","Player"."points","Player"."assists","Player"."salary","Player"."current_team" FROM  "Player"'
+    let queryPlayerWhereClause = 'WHERE "Player"."current_team" =';
+    teams.forEach(element => {
+        queryString = queryPlayerSelect + queryPlayerWhereClause + element["Team_ID"]
+        players = await client.query(queryString)
+        element["players"] = players.rows
+        console.log(players)
+        
+    });
+    return teams
 }
 
 
@@ -59,10 +68,10 @@ async function getAllData(column,keyword)
 
 async function getAllTeams()
 {
-    let queryTeamSelect = 'SELECT "Team"."Team_ID","Team"."name" AS teamname,"Team"."nickname","Team"."city","Team"."country","Team"."expenses","Team"."income","Team"."value","Team"."championship_count","Team"."fan_count","Player"."Player_ID","Player"."name","Player"."surname","Player"."points","Player"."assists","Player"."salary","Player"."current_team" FROM "Team" INNER JOIN "Player" ON "Team"."Team_ID" = "Player"."current_team"'
+    let queryTeamSelect = 'SELECT "Team"."Team_ID","Team"."name" AS teamname,"Team"."nickname","Team"."city","Team"."country","Team"."expenses","Team"."income","Team"."value","Team"."championship_count","Team"."fan_count" FROM "Team"'
     teams = await client.query(queryTeamSelect)
+    teams = hierachical(teams.rows) // get the players
     return teams
-
 }
 
 
@@ -90,9 +99,9 @@ async function getTeamFromID(teamID)
 
 async function getPlayerFromID(playerID)
 {
-    let queryPersonSelect = 'SELECT "Player"."Player_ID","Player"."name","Player"."surname","Player"."points","Player"."assists","Player"."salary","Player"."current_team" FROM  "Player"'
-    let queryPersonWhereClause = 'WHERE "Player"."Player_ID" =' + playerID;
-    let queryString = queryPersonSelect + queryPersonWhereClause
+    let queryPlayerSelect = 'SELECT "Player"."Player_ID","Player"."name","Player"."surname","Player"."points","Player"."assists","Player"."salary","Player"."current_team" FROM  "Player"'
+    let queryPlayerWhereClause = 'WHERE "Player"."Player_ID" =' + playerID;
+    let queryString = queryPlayerSelect + queryPlayerWhereClause
     players = await client.query(queryString)
     return players
 }
@@ -100,9 +109,9 @@ async function getPlayerFromID(playerID)
 
 async function getPlayerByMinimumSalary(minSalary)
 {
-    let queryPersonSelect = 'SELECT "Player"."Player_ID","Player"."name","Player"."surname","Player"."points","Player"."assists","Player"."salary","Player"."current_team" FROM  "Player"'
-    let queryPersonWhereClause = 'WHERE "Player"."salary" >=' + minSalary
-    let queryString = queryPersonSelect + queryPersonWhereClause
+    let queryPlayerSelect = 'SELECT "Player"."Player_ID","Player"."name","Player"."surname","Player"."points","Player"."assists","Player"."salary","Player"."current_team" FROM  "Player"'
+    let queryPlayerWhereClause = 'WHERE "Player"."salary" >=' + minSalary
+    let queryString = queryPlayerSelect + queryPlayerWhereClause
     players = await client.query(queryString)
     return players
 }
@@ -131,12 +140,12 @@ app.use(bodyParser.urlencoded({
 //Routing for receiving all of the data requests
 app.get("/api.local/allTeams",async function(req, res)
 {
-    console.log("HERE")
-    try {    
-        let teams = await getAllData("WILDCARD","*")
+    try {   
+
+        let teams = await getAllTeams()
 
         //TODO: parse the teams rows and get a hierachical structure
-        res.send(teams.rows)
+        res.send(teams)
     } catch(e) {
         // catch errors and send error status
         console.log(e);
