@@ -15,13 +15,14 @@ async function hierachical(teams)
     console.log(teams)
     let queryPlayerSelect = 'SELECT "Player"."Player_ID","Player"."name","Player"."surname","Player"."points","Player"."assists","Player"."salary","Player"."current_team" FROM  "Player"'
     let queryPlayerWhereClause = 'WHERE "Player"."current_team" =';
-    teams.forEach(element => {
+    for(var element of teams)
+    {
         queryString = queryPlayerSelect + queryPlayerWhereClause + element["Team_ID"]
         players = await client.query(queryString)
         element["players"] = players.rows
         console.log(players)
         
-    });
+    }
     return teams
 }
 
@@ -81,6 +82,8 @@ async function getTeamByNickname(nickname)
     let queryTeamWhereClause ='WHERE "Team"."nickname" =\'' + nickname + '\''
     let queryString =  queryTeamSelect + queryTeamWhereClause;
     teams = await client.query(queryString)
+    teams = hierachical(teams.rows) // get the players
+
     return teams
 
 }
@@ -91,6 +94,8 @@ async function getTeamFromID(teamID)
     let queryString =  queryTeamSelect + queryTeamWhereClause;
   
     teams = await client.query(queryString)
+    teams = hierachical(teams.rows) // get the players
+
     return teams
 }
 
