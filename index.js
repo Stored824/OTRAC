@@ -75,6 +75,31 @@ async function getAllTeams()
     return teams
 }
 
+async function changeData(id,column,changeValue)
+{
+    let response = await client.query('UPDATE "OTRAC."Team" SET ' + column + ' = \'' + changeValue + '\' WHERE "Team"."Team_ID"\'' + id + '\'')
+    console.log(response)
+}
+
+async function deleteData(id)
+{
+    let response = await client.query('DELETE FROM "Team" WHERE "Team"."Team_ID" = \'' + id + "\'")
+    console.log(response)
+}
+async function addData(values)
+{
+    valuesQueryString = "("
+    for(var value of values)
+    {
+        valuesQueryString += "\'"
+        valuesQueryString += value
+        valuesQueryString += "\'"
+        valuesQueryString += ","
+    }
+    valuesQueryString = valuesQueryString.substring(0, valuesQueryString.length-1);
+    valuesQueryString += ")"
+    let response = await client.query('INSERT INTO "Team" VALUES' + valuesQueryString)
+}
 
 async function getTeamByNickname(nickname)
 {
@@ -234,10 +259,72 @@ app.get("/api.local/player/salary/:salary",async function(req, res){
 
 })
 
-//TODO: OPENGPL spec 
-app.get("api.local/specification",async function(res,req)
+//TODO: OPENAPI spec 
+app.get("/api.local/specification",async function(req,res)
 {
     res.send();
+})
+
+
+//CHANGE A VALUE OF THE TEAM WITH THE GIVEN ID USING THE BODY OF THE PUT METHOD
+
+app.put("/api.local/team/:uid",async function(req, res)
+{
+    let teamId = req.params.uid
+    //console.log(req)
+    jsonMessage = JSON.parse(Object.keys(req.body)[0])
+    let column = jsonMessage.column
+    let changedValue = jsonMessage.changedValue
+    console.log(teamId)
+    console.log(column)
+    console.log(changedValue)
+    try {    
+        await changeData(teamId, column, changedValue)
+        res.sendStatus(201);
+    } catch(e) {
+        // catch errors and send error status
+        console.log(e);
+        res.sendStatus(500);
+    }
+
+})
+//DELETE THE TEAM WITH THE GIVEN ID
+app.delete("/api.local/team/:uid",async function(req, res)
+{
+    //get all the values from the request body
+    teamID = req.params.uid
+    console.log(teamID)
+    try {    
+        await deleteData(teamID)
+        res.sendStatus(200);
+    } catch(e) {
+        // catch errors and send error status
+        console.log(e);
+        res.sendStatus(500);
+    }
+    
+
+})
+
+//ADD A TEAM WITH THE GIVEN ELEMENTS IN THE BODY
+app.post("/api.local/team",async function(req, res)
+{
+    //get all the values from the request body
+    console.log(req.body)
+    values = "["
+    values += Object.keys(req.body)
+    values += "]"
+    values = JSON.parse(values)
+    console.log(values)
+    try {    
+        await addData(values)
+        res.sendStatus(201);
+    } catch(e) {
+        // catch errors and send error status
+        console.log(e);
+        res.sendStatus(500);
+    }
+
 })
 
 
