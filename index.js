@@ -99,6 +99,7 @@ async function addData(values)
     valuesQueryString = valuesQueryString.substring(0, valuesQueryString.length-1);
     valuesQueryString += ")"
     let response = await client.query('INSERT INTO "Team" VALUES' + valuesQueryString)
+    console.log(response)
 }
 
 async function getTeamByNickname(nickname)
@@ -262,7 +263,8 @@ app.get("/api.local/player/salary/:salary",async function(req, res){
 //TODO: OPENAPI spec 
 app.get("/api.local/specification",async function(req,res)
 {
-    res.send();
+    openapi = JSON.parse(fs.readFileSync('./openapi.json','utf8'))
+    res.send(openapi);
 })
 
 
