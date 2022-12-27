@@ -2,12 +2,39 @@ const express = require('express');
 const { writeFileSync } = require('fs')
 const{Pool, Client} = require('pg')
 const fs = require("fs");
+const {auth} = require('express-openid-connect');
+
+const config = {
+    authRequired: false,
+    auth0Logout: true,
+    secret: '8MVfofLc1xL5qfiXycXJGoQMz2lwYIrK9aUbyK0u6c6czJSux6AjoPzW_w11DWzy',
+    baseURL: 'http://localhost:3000',
+    clientID: '9dUPrYfgsTdjBhfqjsJM7uCrhcd7iWRc',
+    issuerBaseURL: 'https://dev-k5qmvfuerpnyepmh.us.auth0.com'
+  };
 
 const connectionString = 'postgressql://postgres:default@localhost:5432/TeamsAndPlayers'
 const client = new Client({
     connectionString: connectionString
 
 })
+
+
+function hideBoth(log)  { 
+
+    if(log)
+    {
+        document.getElementById("loggedIn").style.visibility="hidden";  
+        document.getElementById("NotLoggedIn").style.visibility="visible";
+    }
+    else
+    {
+        document.getElementById("loggedIn").style.visibility="visible";  
+        document.getElementById("NotLoggedIn").style.visibility="hidden";   
+    } 
+}
+
+
 
 //ADD THE PLAYERS FROM EACH TEAM
 async function hierachical(teams)
@@ -23,6 +50,8 @@ async function hierachical(teams)
         console.log(players)
         
     }
+
+    //TODO: ADD SEMANTIC ANALISYS TO THE RESPONSE
     return teams
 }
 
@@ -115,13 +144,12 @@ async function getTeamByNickname(nickname)
 }
 async function getTeamFromID(teamID)
 {
-    let queryTeamSelect = 'SELECT "Team"."Team_ID","Team"."name" AS teamname,"Team"."nickname","Team"."city","Team"."country","Team"."expenses","Team"."income","Team"."value","Team"."championship_count","Team"."fan_count","Player"."Player_ID","Player"."name","Player"."surname","Player"."points","Player"."assists","Player"."salary","Player"."current_team" FROM "Team" INNER JOIN "Player" ON "Team"."Team_ID" = "Player"."current_team"'
+    let queryTeamSelect = 'SELECT "Team"."Team_ID","Team"."name" AS teamname,"Team"."nickname","Team"."city","Team"."country","Team"."expenses","Team"."income","Team"."value","Team"."championship_count","Team"."fan_count" FROM "Team"'
     let queryTeamWhereClause = 'WHERE "Team"."Team_ID" =' + teamID
     let queryString =  queryTeamSelect + queryTeamWhereClause;
   
     teams = await client.query(queryString)
     teams = hierachical(teams.rows) // get the players
-
     return teams
 }
 
@@ -154,11 +182,21 @@ client.connect()
 
 app.listen(3000, () => console.log('listening at 3000'));
 app.use(express.static('public'));
+app.use(auth(config));
 const bodyParser = require("body-parser");
 const { count } = require('console');
 app.use(bodyParser.urlencoded({
     extended: true
 }));
+//TODO: ADD AUTHENTICATION MIDDLEWARE
+
+app.get('/', (req, res) => {
+    console.log('Is authenticated: ' + req.oidc.isAuthenticated())
+    hideBoth(req.oidc.isAuthenticated())
+    res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
+  });
+
+
 
 
 /*
@@ -175,7 +213,6 @@ app.get("/api.local/allTeams",async function(req, res)
 
         let teams = await getAllTeams()
 
-        //TODO: parse the teams rows and get a hierachical structure
         res.send(teams)
     } catch(e) {
         // catch errors and send error status
@@ -194,11 +231,12 @@ app.get("/api.local/team/:uid",async function(req, res)
     let teamID = req.params.uid
     try {    
         let teams = await getTeamFromID(teamID)
-        if(!teams.rows || teams.rows.length == 0)
+        console.log(teams[0])
+        if(!teams[0] || teams[0] === 0)
         {
             res.status(404).send("No teams found, check id value");
         }
-        else res.send(teams.rows)
+        else res.send(teams[0])
     } catch(e) {
         // catch errors and send error status
         console.log(e);
