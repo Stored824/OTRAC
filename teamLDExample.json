@@ -1,0 +1,48 @@
+{
+    "@context": {
+        "@vocab" :"https://schema.org",
+        "surname": "familyName",
+        "teamname" : "name",
+        "nickname" : "alternateName"
+        
+    },
+    "@type": "SportsTeam",
+    "Team_ID": 1,
+    "teamname": "San Quentin Spongers",
+    "nickname": "Sponges",
+    "city": {
+        "@type": "City",
+        "name": "San Quentin"
+    },
+    "country": {
+        "@type": "Country",
+        "name": "United States of America"
+    },
+    "expenses": "100",
+    "income": "101",
+    "value": "220",
+    "championship_count": 0,
+    "fan_count": "120000",
+    "players": [
+        {
+            "@type": "Person",
+            "Player_ID": 1,
+            "name": "John",
+            "surname": "Doe",
+            "points": "1",
+            "assists": "2",
+            "salary": "10",
+            "current_team": "1"
+        },
+        {
+            "@type": "Person",
+            "Player_ID": 2,
+            "name": "Marcus",
+            "surname": "Dark",
+            "points": "2",
+            "assists": "0",
+            "salary": "11",
+            "current_team": "1"
+        }
+    ]
+}

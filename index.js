@@ -19,7 +19,7 @@ const client = new Client({
 
 })
 
-
+/*
 function hideBoth(log)  { 
 
     if(log)
@@ -33,16 +33,61 @@ function hideBoth(log)  {
         document.getElementById("NotLoggedIn").style.visibility="hidden";   
     } 
 }
+*/
 
+function addLDToTeamJSON(teamJSON)
+{
+    response = {
+        "@context" : {
+            "@vocab" :"https://schema.org",
+            "surname": "familyName",
+            "teamname" : "name",
+            "nickname" : "alternateName"    
+        }
+    }
 
+    
+    console.log(teamJSON)
+    //FOR EACH TEAM
+    //ADD THE SPORTS TEAM TYPE
+    for(var team of teamJSON)
+    {
+
+        //UPDATE THE CITY AND COUNTRY VALUE
+        team["@type"] = "SportsTeam"
+        country = team["country"]
+        city = team["city"]
+        team["country"] =
+        {
+            "@type" : "Country",
+            "name" : country
+        }
+        team["city"] = 
+        {
+            "@type" : "City",
+            "name" : city
+        }
+
+        //FOR EACH PLAYER
+        //ADD THE SPORTS TEAM TYPE
+        for(var player of team["players"])
+        {
+            player["@type"] = "Person"
+        }
+    }
+    response["teams"] = teamJSON 
+
+    // ADD THE CONTEXT OBJECT
+    return response
+}
 
 //ADD THE PLAYERS FROM EACH TEAM
 async function hierachical(teams)
 {
-    console.log(teams)
+    console.log(teams.rows)
     let queryPlayerSelect = 'SELECT "Player"."Player_ID","Player"."name","Player"."surname","Player"."points","Player"."assists","Player"."salary","Player"."current_team" FROM  "Player"'
     let queryPlayerWhereClause = 'WHERE "Player"."current_team" =';
-    for(var element of teams)
+    for(var element of teams.rows)
     {
         queryString = queryPlayerSelect + queryPlayerWhereClause + element["Team_ID"]
         players = await client.query(queryString)
@@ -52,7 +97,8 @@ async function hierachical(teams)
     }
 
     //TODO: ADD SEMANTIC ANALISYS TO THE RESPONSE
-    return teams
+    return addLDToTeamJSON(teams.rows)
+
 }
 
 
@@ -100,7 +146,7 @@ async function getAllTeams()
 {
     let queryTeamSelect = 'SELECT "Team"."Team_ID","Team"."name" AS teamname,"Team"."nickname","Team"."city","Team"."country","Team"."expenses","Team"."income","Team"."value","Team"."championship_count","Team"."fan_count" FROM "Team"'
     teams = await client.query(queryTeamSelect)
-    teams = hierachical(teams.rows) // get the players
+    teams = hierachical(teams) // get the players
     return teams
 }
 
@@ -149,7 +195,7 @@ async function getTeamFromID(teamID)
     let queryString =  queryTeamSelect + queryTeamWhereClause;
   
     teams = await client.query(queryString)
-    teams = hierachical(teams.rows) // get the players
+    teams = hierachical(teams) // get the players
     return teams
 }
 
@@ -190,20 +236,35 @@ app.use(bodyParser.urlencoded({
 }));
 //TODO: ADD AUTHENTICATION MIDDLEWARE
 
-app.get('/', (req, res) => {
+/*
+app.use('/', (req, res) => {
+    console.log("HERE I AM")
     console.log('Is authenticated: ' + req.oidc.isAuthenticated())
-    hideBoth(req.oidc.isAuthenticated())
-    res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
+    //hideBoth(req.oidc.isAuthenticated())
+    res.render("index",{
+        isAuthenticated:req.oidc.isAuthenticated()
+    });
   });
 
-
-
-
+*/
 /*
 ****************************
  *  GET ALL TEAMS
 ****************************
 */
+
+app.get("/api.local/example",async function(req, res)
+{
+    try {   
+
+        let teams = JSON.parse(fs.readFileSync('./teamLDExample.json','utf8'))
+        res.send(teams)
+    } catch(e) {
+        // catch errors and send error status
+        console.log(e);
+        res.sendStatus(500);
+    }
+})
 
 
 //Routing for receiving all of the data requests
@@ -231,12 +292,11 @@ app.get("/api.local/team/:uid",async function(req, res)
     let teamID = req.params.uid
     try {    
         let teams = await getTeamFromID(teamID)
-        console.log(teams[0])
-        if(!teams[0] || teams[0] === 0)
+        if(!teams["teams"] || teams["teams"] === 0)
         {
             res.status(404).send("No teams found, check id value");
         }
-        else res.send(teams[0])
+        else res.send(teams)
     } catch(e) {
         // catch errors and send error status
         console.log(e);

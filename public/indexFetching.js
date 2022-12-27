@@ -126,3 +126,5 @@ function downloadCSV() {
     dlAnchorElem.setAttribute("download", "teamsAndPlayers.csv");
     dlAnchorElem.click();
 }
+
+
